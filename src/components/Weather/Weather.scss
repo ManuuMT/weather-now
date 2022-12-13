@@ -18,7 +18,12 @@
   p,
   h1,
   h2 {
-    text-shadow: 1px 1px 1px black, 0 0 1em black, 0 0 0.1em black;
+    text-shadow: 1px 1px 1px #000000, 0 0 1em #000000, 0 0 0.1em #000000;
+  }
+
+  h1:hover,
+  h2:hover {
+    text-shadow: 1px 1px 1px #2003c0, 0 0 1em #2003c0, 0 0 0.1em #2003c0;
   }
 }
 
@@ -62,10 +67,14 @@
   h1 {
     font-size: 60px;
   }
+  h2 {
+    font-size: 30px;
+  }
 }
 
 .weather-city {
   width: fit-content;
+  cursor: pointer;
 }
 
 .weather-temp {
