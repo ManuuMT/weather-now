@@ -5,7 +5,8 @@ import { weatherBg } from "./Weather+Helper";
 import Modal from "../Modal/Modal";
 import LoaderIcon from "../../assets/img/spinner-white.png";
 import RefreshIcon from "../../assets/img/icon-refresh.png";
-import MenuIcon from "../../assets/img/icon-menu.png";
+import MenuIcon from "../../assets/img/icon-info.png";
+import Info from "../Info/Info";
 
 const Weather: React.FC = () => {
   // * States
@@ -13,6 +14,7 @@ const Weather: React.FC = () => {
   const [isCelsius, setIsCelsius] = useState(true);
   const [city, setCity] = useState("MADRID");
   const [open, setOpen] = useState(false);
+  const [openInfo, setOpenInfo] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   // * Methods
@@ -36,7 +38,7 @@ const Weather: React.FC = () => {
     setData(res.data);
     setTimeout(async () => {
       setIsLoading(false);
-    }, 1000);
+    }, 10);
   };
 
   // * Life Cycle
@@ -56,6 +58,7 @@ const Weather: React.FC = () => {
   return (
     <>
       {open && <Modal onChange={setCity} isOpen={setOpen} />}
+      {openInfo && <Info isOpen={setOpenInfo} info={data} />}
       <div className="weather-container">
         <div className="weather">
           {isLoading && Loader()}
@@ -88,6 +91,7 @@ const Weather: React.FC = () => {
                     className="weather-menu-img"
                     src={MenuIcon}
                     alt="Refresh"
+                    onClick={() => setOpenInfo(true)}
                   />
                 </div>
               </div>
