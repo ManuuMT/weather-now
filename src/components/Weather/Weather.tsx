@@ -3,39 +3,42 @@ import "./Weather.scss";
 import axios from "axios";
 import { weatherBg } from "./Weather+Helper";
 import Modal from "../Modal/Modal";
+import LoaderIcon from "../../assets/img/spinner-white.png";
+import RefreshIcon from "../../assets/img/icon-refresh.png";
+import MenuIcon from "../../assets/img/icon-menu.png";
 
 const Weather: React.FC = () => {
   // * States
   const [data, setData] = useState<any>();
   const [isCelsius, setIsCelsius] = useState(true);
-  const [city, setCity] = useState("Madrid");
+  const [city, setCity] = useState("MADRID");
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   // * Methods
   const SetBackground = () => {
     const temp = Number(data.current.temp_c);
-    if (temp >= 20) return weatherBg.Sun;
-    if (temp > 5 && temp < 20) return weatherBg.Rain;
+    if (temp >= 18) return weatherBg.Sun;
+    if (temp > 3 && temp < 18) return weatherBg.Rain;
     return weatherBg.Snow;
   };
 
   const Loader = () => (
     <div className="weather-loader">
-      <img
-        className="weather-loader-img"
-        src="https://i.imgur.com/l8D5JlD.png"
-        alt="Loader"
-      />
+      <img className="weather-loader-img" src={LoaderIcon} alt="Loader" />
     </div>
   );
+
   const GetWeatherData = async (): Promise<any> => {
     setIsLoading(true);
     const url = `${process.env.REACT_APP_URL}key=${process.env.REACT_APP_KEY}&q=${city}&aqi=no`;
     const res = await axios.get(url);
     setData(res.data);
-    setIsLoading(false);
+    setTimeout(async () => {
+      setIsLoading(false);
+    }, 1000);
   };
+
   // * Life Cycle
   useEffect(() => {
     GetWeatherData();
@@ -65,12 +68,27 @@ const Weather: React.FC = () => {
                   alt="weather-background"
                 />
               </div>
-              <div className="weather-date">
-                <div className="weather-day">
-                  <p>{data.location.localtime.split(" ")[0]}</p>
+              <div className="weather-top">
+                <div className="weather-date">
+                  <div className="weather-day">
+                    <p>{data.location.localtime.split(" ")[0]}</p>
+                  </div>
+                  <div className="weather-time">
+                    <p>{data.location.localtime.split(" ")[1]}</p>
+                  </div>
                 </div>
-                <div className="weather-time">
-                  <p>{data.location.localtime.split(" ")[1]}</p>
+                <div className="weather-menu">
+                  <img
+                    className="weather-menu-img"
+                    src={RefreshIcon}
+                    alt="Refresh"
+                    onClick={GetWeatherData}
+                  />
+                  <img
+                    className="weather-menu-img"
+                    src={MenuIcon}
+                    alt="Refresh"
+                  />
                 </div>
               </div>
 

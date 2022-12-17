@@ -11,6 +11,10 @@
   justify-content: space-between;
   position: relative;
   background: #ffffff;
+  background-image: url("../../assets/img/man-working.png");
+  background-size: contain;
+  background-position: 50% 60%;
+  background-repeat: no-repeat;
   color: #ffffff;
   -webkit-user-select: none;
   user-select: none;
@@ -19,11 +23,12 @@
   h1,
   h2 {
     text-shadow: 1px 1px 1px #000000, 0 0 1em #000000, 0 0 0.1em #000000;
+    transition: all 0.4s ease-in-out;
   }
 
   h1:hover,
   h2:hover {
-    text-shadow: 1px 1px 1px #2003c0, 0 0 1em #2003c0, 0 0 0.1em #2003c0;
+    text-shadow: 4px 4px 4px #50a3b9, 0 0 4em #50a3b9, 0 0 0.4em #50a3b9;
   }
 }
 
@@ -39,6 +44,8 @@
   width: 50px;
   height: 50px;
   animation: loaderSpin infinite 1s linear;
+  filter: brightness(0) saturate(100%) invert(58%) sepia(59%) saturate(366%)
+    hue-rotate(146deg) brightness(89%) contrast(87%);
 }
 
 .weather-background {
@@ -52,9 +59,21 @@
   width: 100%;
 }
 
-.weather-date {
+.weather-top {
   padding: 5px;
   position: relative;
+  display: flex;
+  justify-content: space-between;
+  p {
+    font-size: 18px;
+  }
+}
+
+.weather-menu-img {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  margin: 5px 10px 0 10px;
 }
 
 .weather-info {
@@ -65,10 +84,10 @@
   align-items: center;
 
   h1 {
-    font-size: 60px;
+    font-size: 70px;
   }
   h2 {
-    font-size: 30px;
+    font-size: 25px;
   }
 }
 
@@ -88,7 +107,7 @@
   text-align: center;
 
   p {
-    font-size: 12px;
+    font-size: 14px;
   }
 }
 
