@@ -7,6 +7,7 @@ import LoaderIcon from "../../assets/img/spinner-white.png";
 import RefreshIcon from "../../assets/img/icon-refresh.png";
 import MenuIcon from "../../assets/img/icon-info.png";
 import Info from "../Info/Info";
+import Alert from "../Alert/Alert";
 
 const Weather: React.FC = () => {
   // * States
@@ -42,15 +43,12 @@ const Weather: React.FC = () => {
           Accept: "application/json",
         },
       });
-
       setData(res.data);
       setCity(res.data.location.name);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        setIsError(true);
-        setTimeout(() => setIsError(false), 3000);
-        // console.log("Error message: ", error.message);
-        // console.log(data);
+        setTimeout(() => setIsError(true), 1000);
+        setTimeout(() => setIsError(false), 10000);
       }
     }
     setTimeout(async () => {
@@ -58,14 +56,14 @@ const Weather: React.FC = () => {
     }, 1000);
   };
 
+  const ChangeCity = (newCity: string) =>
+    newCity.toUpperCase().trim() !== city.toUpperCase().trim() &&
+    GetWeatherData(newCity);
+
   // * Life Cycle
   useEffect(() => {
     GetWeatherData(city);
   }, []);
-
-  // useEffect(() => {
-  //   console.log(city);
-  // }, [city]);
 
   useEffect(() => {
     open
@@ -77,16 +75,9 @@ const Weather: React.FC = () => {
 
   return (
     <>
-      {open && (
-        <Modal
-          onChange={(newCity: string) => {
-            newCity.toUpperCase() !== city.toUpperCase() &&
-              GetWeatherData(newCity);
-          }}
-          isOpen={setOpen}
-        />
-      )}
+      {open && <Modal onChange={ChangeCity} isOpen={setOpen} />}
       {openInfo && <Info isOpen={setOpenInfo} info={data} />}
+      {isError && <Alert isOpen={setIsError} />}
       <div className="weather-container">
         <div className="weather">
           {isLoading && Loader()}

@@ -34,6 +34,7 @@ const Modal: React.FC<ModalProps> = (props) => {
             placeholder="London, Amsterdam..."
             value={value}
             onChange={(e) => setValue(e.target.value)}
+            autoFocus
           />
           <button className="modal-button" type="submit">
             Change
