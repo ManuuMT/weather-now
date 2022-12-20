@@ -13,7 +13,7 @@ const Modal: React.FC<ModalProps> = (props) => {
   // * Methods
   const Submit = (e: FormEvent) => {
     e.preventDefault();
-    props.onChange(value.toUpperCase().trim());
+    props.onChange(value);
     CloseModal();
   };
   const CloseModal = () => props.isOpen(false);

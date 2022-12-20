@@ -31,7 +31,7 @@ const Info: React.FC<InfoProps> = (props) => {
         <div className="info-details">
           <p>
             <strong>Wind: </strong>
-            {`${props.info.current.wind_kph}kph from ${props.info.current.wind_dir}`}
+            {`${props.info.current.wind_kph} kph from ${props.info.current.wind_dir}`}
           </p>
           <p>
             <strong>Humidity: </strong>

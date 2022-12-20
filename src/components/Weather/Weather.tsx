@@ -11,11 +11,12 @@ import Info from "../Info/Info";
 const Weather: React.FC = () => {
   // * States
   const [data, setData] = useState<any>();
+  const [city, setCity] = useState("Madrid");
   const [isCelsius, setIsCelsius] = useState(true);
-  const [city, setCity] = useState("MADRID");
   const [open, setOpen] = useState(false);
   const [openInfo, setOpenInfo] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   // * Methods
   const SetBackground = () => {
@@ -31,22 +32,41 @@ const Weather: React.FC = () => {
     </div>
   );
 
-  const GetWeatherData = async (): Promise<any> => {
+  const GetWeatherData = async (newCity: string): Promise<any> => {
     setIsLoading(true);
-    const url = `${process.env.REACT_APP_URL}key=${process.env.REACT_APP_KEY}&q=${city}&aqi=no`;
-    const res = await axios.get(url);
-    setData(res.data);
+    const url = `${process.env.REACT_APP_URL}key=${process.env.REACT_APP_KEY}&q=${newCity}&aqi=no`;
+
+    try {
+      const res = await axios.get(url, {
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      setData(res.data);
+      setCity(res.data.location.name);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setIsError(true);
+        setTimeout(() => setIsError(false), 3000);
+        // console.log("Error message: ", error.message);
+        // console.log(data);
+      }
+    }
     setTimeout(async () => {
       setIsLoading(false);
-    }, 10);
+    }, 1000);
   };
 
   // * Life Cycle
   useEffect(() => {
-    GetWeatherData();
-  }, [city]);
+    GetWeatherData(city);
+  }, []);
 
-  useEffect(() => console.log(data), [data]);
+  // useEffect(() => {
+  //   console.log(city);
+  // }, [city]);
+
   useEffect(() => {
     open
       ? document.querySelector("body")?.classList.add("body-overflow-hidden")
@@ -57,7 +77,15 @@ const Weather: React.FC = () => {
 
   return (
     <>
-      {open && <Modal onChange={setCity} isOpen={setOpen} />}
+      {open && (
+        <Modal
+          onChange={(newCity: string) => {
+            newCity.toUpperCase() !== city.toUpperCase() &&
+              GetWeatherData(newCity);
+          }}
+          isOpen={setOpen}
+        />
+      )}
       {openInfo && <Info isOpen={setOpenInfo} info={data} />}
       <div className="weather-container">
         <div className="weather">
@@ -85,7 +113,7 @@ const Weather: React.FC = () => {
                     className="weather-menu-img"
                     src={RefreshIcon}
                     alt="Refresh"
-                    onClick={GetWeatherData}
+                    onClick={() => GetWeatherData(city)}
                   />
                   <img
                     className="weather-menu-img"
