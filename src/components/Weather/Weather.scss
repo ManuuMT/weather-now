@@ -4,7 +4,8 @@
 
 .weather {
   height: 90vh;
-  min-height: 400px;
+  min-height: 500px;
+  max-height: 768px;
   width: 350px;
   display: flex;
   flex-direction: column;
