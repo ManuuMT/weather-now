@@ -76,20 +76,20 @@ const Weather: React.FC = () => {
   return (
     <>
       {open && <Modal onChange={ChangeCity} isOpen={setOpen} />}
-      {openInfo && <Info isOpen={setOpenInfo} info={data} />}
+      {openInfo && (
+        <Info isOpen={setOpenInfo} info={data} isCelcius={isCelsius} />
+      )}
       {isError && <Alert isOpen={setIsError} />}
       <div className="weather-container">
         <div className="weather">
           {isLoading && Loader()}
           {!isLoading && (
             <>
-              <div className="weather-background">
-                <img
-                  className="weather-background-img"
-                  src={SetBackground()}
-                  alt="weather-background"
-                />
-              </div>
+              <img
+                className="weather-background-img"
+                src={SetBackground()}
+                alt="weather-background"
+              />
               <div className="weather-top">
                 <div className="weather-date">
                   <div className="weather-day">

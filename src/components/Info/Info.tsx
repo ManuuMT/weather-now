@@ -4,6 +4,7 @@ import "./Info.scss";
 interface InfoProps {
   isOpen: (bool: boolean) => void;
   info: any;
+  isCelcius: boolean;
 }
 
 const Info: React.FC<InfoProps> = (props) => {
@@ -24,7 +25,9 @@ const Info: React.FC<InfoProps> = (props) => {
           <div className="info-condition">
             <p>{props.info.current.condition.text}</p>
             <p>
-              {`${props.info.current.temp_c}ºC / ${props.info.current.temp_f}ºF`}
+              {props.isCelcius
+                ? `${props.info.current.temp_c}ºC`
+                : `${props.info.current.temp_f}ºF`}
             </p>
           </div>
         </div>
@@ -39,7 +42,9 @@ const Info: React.FC<InfoProps> = (props) => {
           </p>
           <p>
             <strong>Feelslike: </strong>
-            {`${props.info.current.feelslike_c}ºC / ${props.info.current.feelslike_f}ºF`}
+            {props.isCelcius
+              ? `${props.info.current.feelslike_c}ºC`
+              : `${props.info.current.feelslike_f}ºF`}
           </p>
         </div>
       </div>
