@@ -63,7 +63,7 @@ const Weather: React.FC = () => {
   // * Life Cycle
   useEffect(() => {
     GetWeatherData(city);
-  }, []);
+  }, [city]);
 
   useEffect(() => {
     open
