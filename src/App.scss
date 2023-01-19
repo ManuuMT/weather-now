@@ -6,4 +6,10 @@
   justify-content: center;
   align-items: center;
   overflow: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.App::-webkit-scrollbar {
+  display: none;
 }

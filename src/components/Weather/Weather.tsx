@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import "./Weather.scss";
-import axios from "axios";
-import { weatherBg } from "./Weather+Helper";
-import Modal from "../Modal/Modal";
-import LoaderIcon from "../../assets/img/spinner-white.png";
-import RefreshIcon from "../../assets/img/icon-refresh.png";
+import React, { useEffect, useState } from "react";
 import MenuIcon from "../../assets/img/icon-info.png";
-import Info from "../Info/Info";
+import RefreshIcon from "../../assets/img/icon-refresh.png";
+import LoaderIcon from "../../assets/img/spinner-white.png";
+import { GetData, GetURL } from "../../services/services";
 import Alert from "../Alert/Alert";
+import Info from "../Info/Info";
+import Modal from "../Modal/Modal";
+import { weatherBg } from "./Weather+Helper";
+import "./Weather.scss";
 
 const Weather: React.FC = () => {
   // * States
@@ -35,25 +35,20 @@ const Weather: React.FC = () => {
 
   const GetWeatherData = async (newCity: string): Promise<any> => {
     setIsLoading(true);
-    const url = `${process.env.REACT_APP_URL}key=${process.env.REACT_APP_KEY}&q=${newCity}&aqi=no`;
+    const url = GetURL(newCity);
 
     try {
-      const res = await axios.get(url, {
-        headers: {
-          Accept: "application/json",
-        },
-      });
-      setData(res.data);
-      setCity(res.data.location.name);
+      const res = await GetData(url);
+      setData(res);
+      setCity(res.location.name);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setTimeout(() => setIsError(true), 1000);
-        setTimeout(() => setIsError(false), 10000);
-      }
+      setTimeout(() => setIsError(true), 1000);
+      setTimeout(() => setIsError(false), 10000);
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     }
-    setTimeout(async () => {
-      setIsLoading(false);
-    }, 1000);
   };
 
   const ChangeCity = (newCity: string) =>
